@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/crypto_airdrop_discovery
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# Custom Airdrop Discovery configurations
+azerite:
+  airdrop-discovery:
+    enabled: true
+    keywords:
+      positive:
+        - follow
+        - mint
+        - galxe
+        - zk
+        - claim
+        - airdrops  # Added more keywords
+        - free
+        - points
+      negative:
+        - scam
+        - ended
+        - fake
+        - beware
+    database:
+      table-name: custom_airdrop_tweets  # Custom table name
+    integration:
+      webhook-enabled: false
+      webhook-url: https://example.com/webhook
+
+logging:
+  level:
+    com.azerite.cryptoairdropdiscovery: INFO
+    org.springframework: WARN
+    org.hibernate: WARN 

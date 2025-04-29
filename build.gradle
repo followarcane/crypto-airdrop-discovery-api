@@ -1,63 +1,61 @@
+// Root project build file
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.3'
-	id 'io.spring.dependency-management' version '1.1.4'
-	id 'maven-publish'
+	id 'org.springframework.boot' version '3.2.3' apply false
+	id 'io.spring.dependency-management' version '1.1.4' apply false
 }
 
-group = 'com.azerite'
-version = '0.1.0'
+allprojects {
+	group = 'com.azerite'
+	version = '0.1.0'
 
-java {
-	sourceCompatibility = '21'
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+	repositories {
+		mavenCentral()
 	}
 }
 
-repositories {
-	mavenCentral()
-}
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
 
-dependencies {
-	// Spring Boot
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	
-	// Database
-	runtimeOnly 'org.postgresql:postgresql'
-	
-	// Lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	
-	// Test dependencies
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'com.h2database:h2'
-}
+	java {
+		sourceCompatibility = '21'
+	}
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
-// Maven publishing configuration
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
 		}
 	}
-}
 
-// Spring Boot configuration for using it as a starter
-bootJar {
-	enabled = false
-}
+	dependencyManagement {
+		imports {
+			mavenBom("org.springframework.boot:spring-boot-dependencies:3.2.3")
+		}
+	}
 
-jar {
-	enabled = true
+	dependencies {
+		// Common dependencies for all subprojects
+		implementation 'org.springframework.boot:spring-boot-starter'
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		// Test dependencies
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	}
+
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
+
+	// Generate metadata for IDE auto-completion
+	tasks.withType(JavaCompile) {
+		options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+	}
 }

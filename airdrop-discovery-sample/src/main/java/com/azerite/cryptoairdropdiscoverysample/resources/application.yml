@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:airdropdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# Custom Airdrop Discovery configuration
+azerite:
+  airdrop-discovery:
+    enabled: true
+    keywords:
+      positive:
+        - follow
+        - mint
+        - galxe
+        - claim
+        - free
+        - airdrop
+      negative:
+        - scam
+        - ended
+        - fake
+    integration:
+      webhook-enabled: false
+      webhook-url:
+
+logging:
+  level:
+    com.azerite: DEBUG
+    org.springframework: INFO 

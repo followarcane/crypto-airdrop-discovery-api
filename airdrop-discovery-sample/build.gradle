@@ -1,0 +1,25 @@
+plugins {
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
+description = 'Sample application demonstrating the Crypto Airdrop Discovery API'
+
+dependencies {
+    // API module dependency
+    implementation project(':airdrop-discovery-api')
+
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // H2 Database for sample app
+    runtimeOnly 'com.h2database:h2'
+
+    // Dev tools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+bootJar {
+    enabled = true
+    mainClass = 'com.azerite.cryptoairdropdiscoverysample.SampleApplication'
+} 

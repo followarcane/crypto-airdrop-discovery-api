@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
+description = 'Spring Boot starter for discovering crypto airdrops from social media'
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    // Spring Boot
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Database - marked as runtime so consuming applications can choose their own
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // Auto Configuration Processor
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Test database
+    testImplementation 'com.h2database:h2'
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+} 
